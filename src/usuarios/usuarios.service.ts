@@ -141,7 +141,7 @@ export class UsuariosService {
 
     const usuario = await this.usuarioRepository.findOne({
       where: { email },
-      select: { email: true, contraseña: true, id: true },
+      select: { email: true, contraseña: true, id: true, nombre:true}
     });
 
     if (!usuario) throw new UnauthorizedException({
@@ -158,7 +158,9 @@ export class UsuariosService {
     return {
       status: 200,
       msg: 'Usuario inició sesion satisfactoriamente!',
-      ...usuario,
+      email: usuario.email,
+      id: usuario.id,
+      nombre: usuario.nombre,
       token: this.getJwtToken({ id: usuario.id }),
     };
   }
@@ -237,7 +239,7 @@ export class UsuariosService {
       return {
         status: 200,
         msg: 'Usuario obtenido',
-        usuario,
+        usuarioSinContraseña,
       };
 
 
